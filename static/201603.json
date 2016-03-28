@@ -1,3 +1,13 @@
 {
-
+  "month": "March",
+  "year": 2016,
+  "leftover": 31.45,
+  "entries": [
+    {
+      "date": 20160312,
+      "amount": 10,
+      "category": "transport",
+      "notes": "lorem ipsum"
+    }
+  ]
 }
