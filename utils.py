@@ -52,8 +52,8 @@ def build_balance_table(db):
 
 def enter_budget(db, month, budget, total=1000):
     # build the query
-    command = "INSERT INTO budget VALUES (?"
-    params = [total]
+    command = "INSERT INTO budget VALUES (?, ?"
+    params = [month, total]
     for top in budget:
         for lower in budget[top]:
             params.append(budget[top][lower])
@@ -68,11 +68,11 @@ def enter_budget(db, month, budget, total=1000):
 
 def get_budget_entry(db, month, item):
     command = """
-    SELECT ? FROM budget
+    SELECT %s FROM budget
     WHERE month=?
-    """
+    """ % item
     c = db.cursor()
-    c.execute(command, (item, month,))
+    c.execute(command, (month,))
     result = c.fetchone()[0]
     return result
 
