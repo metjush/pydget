@@ -1,12 +1,20 @@
 from flask import Flask, render_template, request, jsonify
+from flask.ext.basicauth import BasicAuth
 import random
 import string
 
 app = Flask(__name__)
 app.config['budget'] = "budget.json"
 
+# setup authentification
+app.config['BASIC_AUTH_USERNAME'] = 'metjush'
+app.config['BASIC_AUTH_PASSWORD'] = '`@#$~^&*{}^'
+
+basic_auth = BasicAuth(app)
+
 
 @app.route('/')
+@basic_auth.required
 def index():
     """
     Load the budget
