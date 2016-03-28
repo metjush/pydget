@@ -175,6 +175,25 @@ def fetch_month_entries(db, month, item=None):
     return entries
 
 
+def write_entry(db, data):
+    # data is a dict to write
+    c = db.cursor()
+    command = """
+    INSERT INTO entries
+    VALUES
+    (NULL, ?, ?, ?, ?, ?, ?)
+    """
+    params = (data['month'],
+              data['date'],
+              data['price'],
+              data['category'],
+              data['item'],
+              data['note'],)
+    c.execute(command, params)
+    db.commit()
+    return db
+
+
 if __name__ == "__main__":
     print(current_date())
     print(current_date(True))
