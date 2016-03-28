@@ -1,5 +1,5 @@
 import datetime
-import sqlite3
+from sqlite3 import OperationalError
 
 
 def current_date(month=False):
@@ -10,8 +10,22 @@ def current_date(month=False):
     return now.translate(None, "-")
 
 
+def table_exists(cursor, table):
+    # check if the table exists
+    try:
+        cursor.execute("SELECT * FROM %s" % table)
+        exists = True
+    except OperationalError:
+        exists = False
+    return exists
+
+
 def build_entry_table(db):
     c = db.cursor()
+
+    if table_exists(c, 'entries'):
+        return db
+
     command = """
     CREATE TABLE entries
     (id INTEGER PRIMARY KEY ASC, month TEXT, date TEXT, price REAL, category TEXT, item TEXT, note TEXT)
@@ -22,6 +36,12 @@ def build_entry_table(db):
 
 
 def build_budget_table(db, budget):
+    c = db.cursor()
+
+    # check if the table exists
+    if table_exists(c, 'budget'):
+        return db
+
     # build the sql query
     params = []
     command = "CREATE TABLE budget (month TEXT, total REAL"
@@ -29,8 +49,8 @@ def build_budget_table(db, budget):
         for lower in budget[top_level]:
             command = command + ", " + lower + " REAL"
     command += ")"
+
     # create it
-    c = db.cursor()
     c.execute(command)
     db.commit()
     return db
@@ -38,6 +58,11 @@ def build_budget_table(db, budget):
 
 def build_balance_table(db):
     c = db.cursor()
+
+    # check if the table exists
+    if table_exists(c, 'balances'):
+        return db
+
     command = """
     CREATE TABLE balances
     AS SELECT *
@@ -86,8 +111,8 @@ def sum_entries(entries):
 
 def get_balance(db, month, budget):
     # fetch all entries for the given month
-    all = fetch_month_entries(db, month)
-    total = sum_entries(all)
+    all_entries = fetch_month_entries(db, month)
+    total = sum_entries(all_entries)
     # iterate over keys, to update individual balances
     balances = [total]
     for top in budget:
