@@ -1,0 +1,32 @@
+{
+  "total": 1000,
+  "save": {
+    "tax": 100.00,
+    "save": 300.00,
+    "insurance": 57.68
+  },
+  "utilities": {
+    "internet": 12.98,
+    "mobile": 10.00,
+    "electricity": 20.00,
+    "gas": 6.00,
+    "housefund": 150.00
+  },
+  "household": {
+    "food": 150.00,
+    "domestic": 50.00,
+    "flowers": 20:00
+  },
+  "life": {
+    "transport": 30.00,
+    "googleplay": 5.49,
+    "spotify": 5.99
+  },
+  "giving": {
+    "cbba": 10.00,
+    "glasgow": 10.00,
+    "dobryanjel": 10.00,
+    "magna": 10.00,
+    "clovek": 5.00
+  }
+}
