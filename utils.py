@@ -120,7 +120,7 @@ def get_balance(db, month, budget):
             ent = fetch_month_entries(db, month, low)
             sum_ent = sum_entries(ent)
             item_budget = get_budget_entry(db, month, low)
-            balance = item_budget - sum_ent
+            balance = int(item_budget) - int(sum_ent)
             balances.append(balance)
     return balances
 
@@ -130,7 +130,7 @@ def update_balance(db, month, budget):
     c = db.cursor()
 
     # check if balance for this month already exists
-    command = "SELECT * FROM balance WHERE month=?"
+    command = "SELECT * FROM balances WHERE month=?"
     c.execute(command, (month,))
     result = c.fetchall()
     if len(result) > 0:
@@ -142,10 +142,11 @@ def update_balance(db, month, budget):
         c.execute(command, (month,))
         db.commit()
 
+    question_marks = ',?'*len(balances)
     command = """
-    INSERT INTO balance
+    INSERT INTO balances
     VALUES (?%s)
-    """ % ',?'*len(balances)
+    """ % question_marks
     params = [month] + balances
     c.execute(command, tuple(params))
     db.commit()
