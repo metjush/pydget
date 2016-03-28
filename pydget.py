@@ -16,7 +16,7 @@ app.config['BASIC_AUTH_PASSWORD'] = '`@#$~^&*{}^'
 basic_auth = BasicAuth(app)
 
 # setup database connection
-app.config['db'] = sqlite3.connect('static/pydget.db')
+app.config['db'] = 'static/pydget.db'
 
 
 @app.route('/')
@@ -38,7 +38,8 @@ def index():
     day = current_date()
 
     # check if the entries table is created
-    db = build_entry_table(app.config['db'])
+    db = sqlite3.connect(app.config['db'])
+    db = build_entry_table(db)
 
     # check if the budget table is created
     db = build_budget_table(db, budget)
@@ -53,8 +54,7 @@ def index():
     balance = get_balance(db, month, budget)
 
     # render the main template
-    return render_template('index.html', entries=jsonify(entries), balance=jsonify(balance))
-
+    return render_template('index.html', entries=entries, balance=balance)
 
 
 @app.route('/add', methods=['POST'])
