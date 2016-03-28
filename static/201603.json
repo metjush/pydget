@@ -6,7 +6,8 @@
     {
       "date": 20160312,
       "amount": 10,
-      "category": "transport",
+      "category": "life",
+      "item": "transport",
       "notes": "lorem ipsum"
     }
   ]
