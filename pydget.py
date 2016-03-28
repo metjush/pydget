@@ -37,6 +37,24 @@ def index():
     month = current_date(True)
     day = current_date()
 
+    # check if the entries table is created
+    db = build_entry_table(app.config['db'])
+
+    # check if the budget table is created
+    db = build_budget_table(db, budget)
+
+    # check if the balances table is created
+    db = build_balance_table(db)
+
+    # fetch this month's entries
+    entries = fetch_month_entries(db, month)
+
+    # get the current balance
+    balance = get_balance(db, month, budget)
+
+    # render the main template
+    return render_template('index.html', entries=jsonify(entries), balance=jsonify(balance))
+
 
 
 @app.route('/add', methods=['POST'])
