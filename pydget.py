@@ -4,6 +4,7 @@ import random
 import string
 from utils import *
 import os
+import sqlite3
 
 app = Flask(__name__)
 app.config['budget'] = "static/budget.json"
@@ -13,6 +14,9 @@ app.config['BASIC_AUTH_USERNAME'] = 'metjush'
 app.config['BASIC_AUTH_PASSWORD'] = '`@#$~^&*{}^'
 
 basic_auth = BasicAuth(app)
+
+# setup database connection
+app.config['db'] = sqlite3.connect('static/pydget.db')
 
 
 @app.route('/')
@@ -33,14 +37,6 @@ def index():
     month = current_date(True)
     day = current_date()
 
-    # load saved entries
-    current_entry_path = 'static/%s' % month
-    if os.path.exists(current_entry_path):
-        current_entry = json.load(open(current_entry_path, 'rb'))
-    else:
-        # create new monthly file
-        # check for leftover money from last month
-    pass
 
 
 @app.route('/add', methods=['POST'])
