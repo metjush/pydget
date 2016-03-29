@@ -2,35 +2,60 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
     <title>Matúšov Budget</title>
+
     <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </head>
 <body>
-    <section id="new_entry">
+    <nav>
+        <div class="nav-wrapper">
+          <a href="#!" class="brand-logo">Pydget</a>
+          <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+          <ul class="right hide-on-med-and-down">
+            <li><a href="#new_entry">New Entry</a></li>
+            <li><a href="#balance">Current Balance</a></li>
+            <li><a href="#entries">List of Entries</a></li>
+          </ul>
+          <ul id="mobile-demo" class="side-nav">
+            <li><a href="#new_entry">New Entry</a></li>
+            <li><a href="#balance">Current Balance</a></li>
+            <li><a href="#entries">List of Entries</a></li>
+          </ul>
+        </div>
+      </nav>
+
+    <section id="new_entry" class="col s12">
         <form id="submit_entry" action="/add" method="post">
-            <p>
+            <p class="row">
                 <label>Date of entry:</label>
                 <input type="date" name="date">
             </p>
-            <p>
+            <p class="row">
                 <label>Amount spent:</label>
                 <input type="number" name="price">
             </p>
-            <p>
-                <label>Category:</label>
-                <select name="category" onchange="showItems()" id="category">
+            <p class="row">
+                    <label>Category:</label>
+                    <select class="browser-default" name="category" onchange="showItems()" id="category">
                     {% for top in budget %}
                     <option value="{{top}}">{{top}}</option>
                     {% endfor %}
-                </select>
+                    </select>
             </p>
-            <p>
+            <p class="row">
                 <label>Item:</label>
                 {% for top in budget %}
-                <select name="item-{{top}}" id="item-{{top}}" class="item"
+                <select name="item-{{top}}" id="item-{{top}}" class="browser-default item"
                     {% if loop.index > 1 %}
-                    disabled="disabled"
+                    disabled
                     {% endif %}
                     >
                     {% for bottom in budget[top] %}
@@ -39,12 +64,13 @@
                 </select>
                 {% endfor %}
             </p>
-            <p>
+            </div>
+            <p class="row">
                 <label>Notes:</label>
                 <input type="text" name="note">
             </p>
-            <p>
-                <input type="submit" value="Save entry">
+            <p class="row">
+                <input type="submit" value="Save entry" class="waves-effect waves-light btn">
             </p>
         </form>
     </section>

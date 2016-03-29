@@ -14,3 +14,7 @@ function showItems() {
         }
     }
 }
+
+$(document).ready(function(){
+    $(".button-collapse").sideNav();
+});
