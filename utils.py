@@ -195,6 +195,18 @@ def write_entry(db, data):
     return db
 
 
+def delete_entry(db, id):
+    # id is the uid of the entry to be deleted
+    c = db.cursor()
+    command = """
+    DELETE FROM entries
+    WHERE id=?
+    """
+    c.execute(command, (id,))
+    db.commit()
+    return db
+
+
 if __name__ == "__main__":
     print(current_date())
     print(current_date(True))

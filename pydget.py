@@ -69,8 +69,8 @@ def add():
     # connect to database
     db = sqlite3.connect(app.config['db'])
 
-        # init the entry dict
-    entry = {}
+    # init the entry dict
+    entry = dict()
 
     # write the data
     entry['date'] = request.form['date']
@@ -102,7 +102,12 @@ def delete(entry):
     :param entry: ID of an entry to be deleted
     :return: redirect to index to show updated status
     """
-    pass
+    # connect to database
+    db = sqlite3.connect(app.config['db'])
+    # delete the entry
+    db = delete_entry(db, entry)
+    # redirect to index
+    return redirect(url_for('/'))
 
 
 @app.route('/report/<month>')
