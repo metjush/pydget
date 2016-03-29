@@ -28,7 +28,11 @@
             <p>
                 <label>Item:</label>
                 {% for top in budget %}
-                <select name="item-{{top}}" id="item-{{top}}" class="item">
+                <select name="item-{{top}}" id="item-{{top}}" class="item"
+                    {% if loop.index > 1 %}
+                    disabled="disabled"
+                    {% endif %}
+                    >
                     {% for bottom in budget[top] %}
                     <option value="{{bottom}}">{{bottom}}</option>
                     {% endfor %}
