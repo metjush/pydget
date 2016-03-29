@@ -96,10 +96,20 @@
         <ul class="collapsible" data-collapsible="accordion">
         {% for top in budget %}
             <li>
-                <div class="collapsible-header"><strong>{{top}}:</strong> €{{balance[top]['total']}}</div>
+                <div class="collapsible-header"><strong>{{top}}:</strong> {{balance[top]['total']}}€</div>
                 <div class="collapsible-body">
                     {% for bottom in budget[top] %}
-                    <p><strong>{{bottom}}:</strong> €{{balance[top][bottom]}}</p>
+                    <p
+                            {% if balance[top][bottom] < 0 %}
+                            class="red darken-1"
+                            {% elif balance[top][bottom]/budget[top][bottom] < 0.3 %}
+                            class="purple darken-3"
+                            {% elif balance[top][bottom] == 0.0 %}
+                            class="grey lighten-2"
+                            {% else %}
+                            class="lime lighten-2"
+                            {% endif %}
+                    ><strong>{{bottom}}:</strong> {{balance[top][bottom]}}€ / {{budget[top][bottom]}}€</p>
                     {% endfor %}
                 </div>
             </li>

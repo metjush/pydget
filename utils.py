@@ -124,7 +124,7 @@ def get_balance(db, month, budget):
             ent = fetch_month_entries(db, month, low)
             sum_ent = sum_entries(ent)
             item_budget = get_budget_entry(db, month, low)
-            balance = int(item_budget) - int(sum_ent)
+            balance = float(item_budget) - float(sum_ent)
             top_sum += balance
             balances.append(balance)
             balance_dict[top][low] = balance
