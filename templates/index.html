@@ -59,7 +59,7 @@
                     <label>Category:</label>
                     <select class="browser-default" name="category" onchange="showItems()" id="category">
                     {% for top in budget %}
-                    <option value="{{top}}">{{top}}</option>
+                    <option value="{{top}}">{{top|title}}</option>
                     {% endfor %}
                     </select>
             </p>
@@ -72,7 +72,7 @@
                     {% endif %}
                     >
                     {% for bottom in budget[top] %}
-                    <option value="{{bottom}}">{{bottom}}</option>
+                    <option value="{{bottom}}">{{bottom|title}}</option>
                     {% endfor %}
                 </select>
                 {% endfor %}
@@ -94,9 +94,33 @@
         </div>
         <div class="row">
         <ul class="collapsible" data-collapsible="accordion">
+            <li>
+                <div class="collapsible-header
+                    {% if balance['total'] > 700 %}
+                    purple darken-3
+                    {% elif balance['total'] > 1000 %}
+                    red darken-1
+                    {% elif balance['total'] == 1000 %}
+                    grey lighten-2
+                    {% else %}
+                    lime lighten-2
+                    {% endif %}
+                "><strong>Total Remaining:</strong> {{1000-balance['total']}} / 1000€</div>
+            </li>
         {% for top in budget %}
             <li>
-                <div class="collapsible-header"><strong>{{top}}:</strong> {{balance[top]['total']}}€</div>
+                <div class="collapsible-header"><strong>{{top|title}}:</strong> <span class="
+                {% with ratio = balance[top]['total'] / budget[top].values()|sum %}
+                    {% if ratio < 0.3 %}
+                    purple-text text-darken-3
+                    {% elif ratio < 0 %}
+                    red-text text-darken-1
+                    {% elif ratio == 0 %}
+                    grey-text text-lighten-2
+                    {% else %}
+                    lime-text text-lighten-2
+                    {% endif %}
+                {% endwith %}">{{balance[top]['total']}} / {{budget[top].values()|sum}}€</span></div>
                 <div class="collapsible-body">
                     {% for bottom in budget[top] %}
                     <p
@@ -109,7 +133,7 @@
                             {% else %}
                             class="lime lighten-2"
                             {% endif %}
-                    ><strong>{{bottom}}:</strong> {{balance[top][bottom]}}€ / {{budget[top][bottom]}}€</p>
+                    ><strong>{{bottom|title}}:</strong> {{balance[top][bottom]}}€ / {{budget[top][bottom]}}€</p>
                     {% endfor %}
                 </div>
             </li>
