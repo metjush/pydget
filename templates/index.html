@@ -32,8 +32,11 @@
         </div>
       </nav>
 
-    <section id="new_entry" class="col s12">
-        <form id="submit_entry" action="/add" method="post">
+    <section id="new_entry" class="row">
+        <div class="col">
+            <h4>Add a new expenditure entry</h4>
+        </div>
+        <form id="submit_entry" action="/add" method="post" class="col s12">
             <p class="row">
                 <label>Date of entry:</label>
                 <input type="date" name="date">
@@ -75,11 +78,17 @@
         </form>
     </section>
 
-    <section id="balance">
+    <section id="balance" class="row">
+        <div class="col">
+            <h4>Current balance</h4>
+        </div>
         {{ balance }}
     </section>
 
-    <section id="entries">
+    <section id="entries" class="row">
+        <div class="col">
+            <h4>List of entries</h4>
+        </div>
         {{ entries }}
     </section>
 </body>
