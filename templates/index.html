@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Matúšov Budget</title>
     <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet" type="text/css">
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </head>
 <body>
     <section id="new_entry">
@@ -18,7 +19,7 @@
             </p>
             <p>
                 <label>Category:</label>
-                <select name="category">
+                <select name="category" onchange="showItems()" id="category">
                     {% for top in budget %}
                     <option value="{{top}}">{{top}}</option>
                     {% endfor %}
@@ -27,7 +28,7 @@
             <p>
                 <label>Item:</label>
                 {% for top in budget %}
-                <select name="item-{{top}}">
+                <select name="item-{{top}}" id="item-{{top}}" class="item">
                     {% for bottom in budget[top] %}
                     <option value="{{bottom}}">{{bottom}}</option>
                     {% endfor %}
