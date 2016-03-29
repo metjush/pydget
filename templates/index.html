@@ -7,7 +7,41 @@
 </head>
 <body>
     <section id="new_entry">
-
+        <form id="submit_entry" action="/add" method="post">
+            <p>
+                <label>Date of entry:</label>
+                <input type="date" name="date">
+            </p>
+            <p>
+                <label>Amount spent:</label>
+                <input type="number" name="price">
+            </p>
+            <p>
+                <label>Category:</label>
+                <select name="category">
+                    {% for top in budget %}
+                    <option value="{{top}}">{{top}}</option>
+                    {% endfor %}
+                </select>
+            </p>
+            <p>
+                <label>Item:</label>
+                {% for top in budget %}
+                <select name="item-{{top}}">
+                    {% for bottom in budget[top] %}
+                    <option value="{{bottom}}">{{bottom}}</option>
+                    {% endfor %}
+                </select>
+                {% endfor %}
+            </p>
+            <p>
+                <label>Notes:</label>
+                <input type="text" name="note">
+            </p>
+            <p>
+                <input type="submit" value="Save entry">
+            </p>
+        </form>
     </section>
 
     <section id="balance">

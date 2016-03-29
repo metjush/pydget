@@ -54,7 +54,7 @@ def index():
     balance = get_balance(db, month, budget)
 
     # render the main template
-    return render_template('index.html', entries=entries, balance=balance)
+    return render_template('index.html', entries=entries, balance=balance, budget=budget)
 
 
 @app.route('/add', methods=['POST'])
@@ -73,15 +73,17 @@ def add():
     entry = dict()
 
     # write the data
-    entry['date'] = request.form['date']
-    entry['price'] = request.form['price']
+    entry['month'] = current_date(True)
+    entry['date'] = str(request.form['date']).translate(None, '-')
+    entry['price'] = float(request.form['price'])
     entry['category'] = request.form['category']
-    entry['item'] = request.form['item']
+    item = 'item-' + request.form['category']
+    entry['item'] = request.form[item]
     entry['note'] = request.form['note']
     # write to db
     db = write_entry(db, entry)
     # redirect to index
-    return redirect(url_for('/'))
+    return redirect(url_for('index'))
 
 
 @app.route('/budget')
@@ -107,7 +109,7 @@ def delete(entry):
     # delete the entry
     db = delete_entry(db, entry)
     # redirect to index
-    return redirect(url_for('/'))
+    return redirect(url_for('index'))
 
 
 @app.route('/report/<month>')
