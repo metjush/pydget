@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, url_for, json
+from flask import Flask, render_template, request, jsonify, url_for, json, redirect
 from flask.ext.basicauth import BasicAuth
 import random
 import string
@@ -62,11 +62,26 @@ def add():
     """
     Endpoint for submitting a new entry
     Parameters:
-    date, amount, category, item, notes
+    date, price, category, item, note
     Write entry
     :return: redirect to index to show updated status
     """
-    pass
+    # connect to database
+    db = sqlite3.connect(app.config['db'])
+
+        # init the entry dict
+    entry = {}
+
+    # write the data
+    entry['date'] = request.form['date']
+    entry['price'] = request.form['price']
+    entry['category'] = request.form['category']
+    entry['item'] = request.form['item']
+    entry['note'] = request.form['note']
+    # write to db
+    db = write_entry(db, entry)
+    # redirect to index
+    return redirect(url_for('/'))
 
 
 @app.route('/budget')
