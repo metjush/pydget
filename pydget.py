@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, url_for, json, redirect
+from flask import Flask, render_template, request, url_for, json, redirect, flash
 from flask.ext.basicauth import BasicAuth
 import random
 import string
@@ -51,7 +51,7 @@ def index():
     entries = fetch_month_entries(db, month)
 
     # get the current balance
-    balance = get_balance(db, month, budget)
+    _, balance = get_balance(db, month, budget)
 
     # render the main template
     return render_template('index.html', entries=entries, balance=balance, budget=budget)
@@ -83,6 +83,7 @@ def add():
     # write to db
     db = write_entry(db, entry)
     # redirect to index
+    flash("Entry added successfully!")
     return redirect(url_for('index'))
 
 
@@ -109,6 +110,7 @@ def delete(entry):
     # delete the entry
     db = delete_entry(db, entry)
     # redirect to index
+    flash("Entry successfully deleted!")
     return redirect(url_for('index'))
 
 

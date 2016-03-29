@@ -115,18 +115,25 @@ def get_balance(db, month, budget):
     total = sum_entries(all_entries)
     # iterate over keys, to update individual balances
     balances = [total]
+    balance_dict = dict()
+    balance_dict['total'] = total
     for top in budget:
+        balance_dict[top] = dict()
+        top_sum = 0
         for low in budget[top]:
             ent = fetch_month_entries(db, month, low)
             sum_ent = sum_entries(ent)
             item_budget = get_budget_entry(db, month, low)
             balance = int(item_budget) - int(sum_ent)
+            top_sum += balance
             balances.append(balance)
-    return balances
+            balance_dict[top][low] = balance
+        balance_dict[top]['total'] = top_sum
+    return balances, balance_dict
 
 
 def update_balance(db, month, budget):
-    balances = get_balance(db, month, budget)
+    balances, _ = get_balance(db, month, budget)
     c = db.cursor()
 
     # check if balance for this month already exists

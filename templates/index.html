@@ -32,6 +32,16 @@
         </div>
       </nav>
 
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <ul class=flashes>
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
     <section id="new_entry" class="row">
         <div class="col">
             <h4>Add a new expenditure entry</h4>
@@ -79,10 +89,22 @@
     </section>
 
     <section id="balance" class="row">
-        <div class="col">
-            <h4>Current balance</h4>
+        <div class="row">
+            <h4 class="col">Current balance</h4>
         </div>
-        {{ balance }}
+        <div class="row">
+        <ul class="collapsible" data-collapsible="accordion">
+        {% for top in budget %}
+            <li>
+                <div class="collapsible-header"><strong>{{top}}:</strong> €{{balance[top]['total']}}</div>
+                <div class="collapsible-body">
+                    {% for bottom in budget[top] %}
+                    <p><strong>{{bottom}}:</strong> €{{balance[top][bottom]}}</p>
+                    {% endfor %}
+                </div>
+            </li>
+        {% endfor %}
+        </div>
     </section>
 
     <section id="entries" class="row">
