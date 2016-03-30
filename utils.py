@@ -3,11 +3,19 @@ from sqlite3 import OperationalError
 
 
 def current_date(month=False):
-    now = str(datetime.date.today())
+    now = datetime.date.today()
     if month:
         # remove the day
-        now = now[:-3]
-    return now.translate(None, "-")
+        return now.strftime("%Y%m")
+    return now.strftime("%Y%m%d")
+
+
+def get_last_month():
+    # courtesy of http://stackoverflow.com/a/9725093/1189670
+    now = datetime.date.today()
+    first = now.replace(day=1)
+    last_month = first - datetime.timedelta(days=1)
+    return last_month.strftime("%Y%m")
 
 
 def table_exists(cursor, table):
@@ -73,6 +81,36 @@ def build_balance_table(db):
     c.executescript(command)
     db.commit()
     return db
+
+
+def check_budget(db, month):
+    c = db.cursor()
+    command = """
+    SELECT * FROM
+    budget
+    WHERE month=?
+    """
+    c.execute(command, (month,))
+    result = c.fetchone()
+    return result is not None
+
+
+def calculate_leftover(db, last_month):
+    c = db.cursor()
+    command = """
+    SELECT * FROM
+    balances
+    WHERE month=?
+    """
+    c.execute(command, (last_month, ))
+    result = c.fetchone()
+    if result is None:
+        return 0
+    else:
+        total = result[1]
+        used = sum(list(result)[2:])
+        remainder = total-used
+        return remainder
 
 
 def enter_budget(db, month, budget, total=1000):

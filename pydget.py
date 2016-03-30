@@ -33,6 +33,7 @@ def index():
 
     # get current day and month
     month = current_date(True)
+    last_month = get_last_month()
     # day = current_date()
 
     # check if the entries table is created
@@ -44,6 +45,15 @@ def index():
 
     # check if the balances table is created
     db = build_balance_table(db)
+
+    # check if a budget is entered for this month
+    # if not, calculate leftover from last month and create new budget entry
+    if not check_budget(db, month):
+        leftover = calculate_leftover(db, last_month)
+        budget['remainder']['leftover'] += leftover
+        db = enter_budget(db, month, budget)
+
+    # check if there is a balance for this month
 
     # get the current balance
     _, balance = get_balance(db, month, budget)

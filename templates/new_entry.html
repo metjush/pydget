@@ -9,11 +9,11 @@
         <form id="submit_entry" action="/add" method="post" class="col s12">
             <p class="row">
                 <label>Date of entry:</label>
-                <input type="date" name="date">
+                <input type="date" name="date" class="datepicker">
             </p>
             <p class="row">
                 <label>Amount spent:</label>
-                <input type="number" name="price">
+                <input type="text" name="price" pattern="\d+(\.\d{1,2})?">
             </p>
             <p class="row">
                     <label>Category:</label>
