@@ -12,7 +12,7 @@ app.config['regular'] = "static/regular.json"
 
 # setup authentification
 app.config['BASIC_AUTH_USERNAME'] = 'metjush'
-app.config['BASIC_AUTH_PASSWORD'] = '`@#$~^&*{}^'
+app.config['BASIC_AUTH_PASSWORD'] = 'totojemojepydgetheslo'
 
 basic_auth = BasicAuth(app)
 
