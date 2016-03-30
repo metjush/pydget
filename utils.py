@@ -183,6 +183,28 @@ def fetch_month_entries(db, month, item=None):
     return entries
 
 
+def fetch_all_entries(db):
+    c = db.cursor()
+    command = """
+    SELECT * FROM entries
+    ORDER BY id ASC
+    """
+    c.execute(command)
+    entries = c.fetchall()
+    return entries
+
+
+def fetch_months(db):
+    c = db.cursor()
+    command = """
+    SELECT DISTINCT month
+    FROM entries
+    """
+    c.execute(command)
+    months = c.fetchall()
+    return months
+
+
 def write_entry(db, data):
     # data is a dict to write
     c = db.cursor()

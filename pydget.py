@@ -62,18 +62,22 @@ def new_entry():
 
 
 @app.route('/entries')
+@app.route('/entries/<month>')
 @basic_auth.required
-def entries():
-    # get current month
-    month = current_date(True)
-
+def entries(month=None):
     # connect to db
     db = sqlite3.connect(app.config['db'])
 
     # fetch this month's entries
-    entries = fetch_month_entries(db, month)
+    if month is None:
+        entries = fetch_all_entries(db)
+    else:
+        entries = fetch_month_entries(db, month)
 
-    return render_template('entries.html', entries=entries)
+    # fetch all months
+    months = fetch_months(db)
+
+    return render_template('entries.html', entries=entries, months=months)
 
 
 @app.route('/add', methods=['POST'])
