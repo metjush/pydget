@@ -1,0 +1,11 @@
+ [
+  [100.00, "saving", "tax", "odklad na dane"],
+  [300.00, "saving", "save", "sporenie"],
+  [57.68, "saving", "insurance", "zdravotne poistenie"],
+  [5.99, "life", "spotify", "darcekovy spotify"],
+  [5.49, "life", "googleplay", "moj google play music"],
+  [10.00, "giving", "cbba", "mesacny prispevok do zboru"],
+  [10.00, "giving", "dobryanjel", "mesacny prispevok do dobreho anjela"],
+  [10.00, "giving", "magna", "mesacny prispevok pre Magnu"],
+  [5.00, "giving", "clovek", "mesacny prispevok pre Clovek v ohrozeni"]
+]

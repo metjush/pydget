@@ -8,6 +8,7 @@ import sqlite3
 
 app = Flask(__name__)
 app.config['budget'] = "static/budget.json"
+app.config['regular'] = "static/regular.json"
 
 # setup authentification
 app.config['BASIC_AUTH_USERNAME'] = 'metjush'
@@ -117,6 +118,38 @@ def add():
     db = write_entry(db, entry)
     # redirect to index
     flash("Entry added successfully!")
+    return redirect(url_for('index'))
+
+
+@app.route('/add_regular')
+def add_regular():
+    """
+    Add regular payments to this month's entries
+    - google play and spotify
+    - charity / giving
+    - saving and tax and insurance
+
+    :return:
+    """
+    # load json of regular payments
+    regular = json.load(open(app.config['regular'], 'rb'))
+
+    # connect to database
+    db = sqlite3.connect(app.config['db'])
+
+    # write them into database
+    for payment in regular:
+        entry = dict() # init the entry dict
+        entry['month'] = current_date(True)
+        entry['date'] = current_date()
+        entry['price'] = payment[0]
+        entry['category'] = payment[1]
+        entry['item'] = payment[2]
+        entry['note'] = payment[3]
+        # write to db
+        db = write_entry(db, entry)
+
+    flash("Regular payments added successfully!")
     return redirect(url_for('index'))
 
 
