@@ -24,9 +24,7 @@ app.config['db'] = 'static/pydget.db'
 def index():
     """
     Load the budget
-    Load saved entries
     Display current month status
-    Display the form for quickly adding a new entry
     :return: template
     """
 
@@ -35,7 +33,7 @@ def index():
 
     # get current day and month
     month = current_date(True)
-    day = current_date()
+    # day = current_date()
 
     # check if the entries table is created
     db = sqlite3.connect(app.config['db'])
@@ -47,14 +45,35 @@ def index():
     # check if the balances table is created
     db = build_balance_table(db)
 
-    # fetch this month's entries
-    entries = fetch_month_entries(db, month)
-
     # get the current balance
     _, balance = get_balance(db, month, budget)
 
     # render the main template
-    return render_template('index.html', entries=entries, balance=balance, budget=budget)
+    return render_template('balance.html', balance=balance, budget=budget)
+
+
+@app.route('/new')
+@basic_auth.required
+def new_entry():
+    # load the budget
+    budget = json.load(open(app.config['budget'], 'rb'))
+
+    return render_template('new_entry.html', budget=budget)
+
+
+@app.route('/entries')
+@basic_auth.required
+def entries():
+    # get current month
+    month = current_date(True)
+
+    # connect to db
+    db = sqlite3.connect(app.config['db'])
+
+    # fetch this month's entries
+    entries = fetch_month_entries(db, month)
+
+    return render_template('entries.html', entries=entries)
 
 
 @app.route('/add', methods=['POST'])

@@ -1,0 +1,50 @@
+{% extends "container.html" %}
+{% block title %}New entry{% endblock %}
+
+{% block content %}
+ <section id="new_entry" class="row">
+        <div class="col">
+            <h4>Add a new expenditure entry</h4>
+        </div>
+        <form id="submit_entry" action="/add" method="post" class="col s12">
+            <p class="row">
+                <label>Date of entry:</label>
+                <input type="date" name="date">
+            </p>
+            <p class="row">
+                <label>Amount spent:</label>
+                <input type="number" name="price">
+            </p>
+            <p class="row">
+                    <label>Category:</label>
+                    <select class="browser-default" name="category" onchange="showItems()" id="category">
+                    {% for top in budget %}
+                    <option value="{{top}}">{{top|title}}</option>
+                    {% endfor %}
+                    </select>
+            </p>
+            <p class="row">
+                <label>Item:</label>
+                {% for top in budget %}
+                <select name="item-{{top}}" id="item-{{top}}" class="browser-default item"
+                    {% if loop.index > 1 %}
+                    disabled
+                    {% endif %}
+                    >
+                    {% for bottom in budget[top] %}
+                    <option value="{{bottom}}">{{bottom|title}}</option>
+                    {% endfor %}
+                </select>
+                {% endfor %}
+            </p>
+            </div>
+            <p class="row">
+                <label>Notes:</label>
+                <input type="text" name="note">
+            </p>
+            <p class="row">
+                <input type="submit" value="Save entry" class="waves-effect waves-light btn">
+            </p>
+        </form>
+    </section>
+{% endblock %}
