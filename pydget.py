@@ -52,7 +52,7 @@ def index():
     return render_template('balance.html', balance=balance, budget=budget)
 
 
-@app.route('/new')
+@app.route('/new_entry')
 @basic_auth.required
 def new_entry():
     # load the budget
