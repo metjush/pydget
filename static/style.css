@@ -1,3 +1,18 @@
 .collapsible-body p {
     padding: 0.5rem 1rem;
 }
+.btn-floating {
+    position: fixed;
+    top: 90%;
+    left: 90%;
+}
+@media (max-width: 600px) {
+    .btn-floating {
+        left: 85%;
+    }
+}
+@media (max-width: 400px) {
+    .btn-floating {
+        left: 80%;
+    }
+}
