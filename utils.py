@@ -64,6 +64,49 @@ def build_budget_table(db, budget):
     return db
 
 
+def build_regular_table(db):
+    c = db.cursor()
+
+    # check if table exists
+    if table_exists(c, 'regular'):
+        return db
+
+    # command
+    command = """
+    CREATE TABLE regular
+    (month TEXT,
+    day TEXT)
+    """
+
+    # create it
+    c.execute(command)
+    db.commit()
+    return db
+
+
+def write_regular(db, month, day):
+    c = db.cursor()
+
+    # check if entry for this month exists
+    select = """
+    SELECT * FROM regular
+    WHERE month=?
+    """
+    c.execute(select, (month,))
+    # if exists, return False
+    if c.fetchone() is not None:
+        return False
+    # otherwise, create new entry
+    write = """
+    INSERT INTO regular
+    VALUES
+    (?,?)
+    """
+    c.execute(write, (month, day,))
+    db.commit()
+    return True
+
+
 def build_balance_table(db):
     c = db.cursor()
 

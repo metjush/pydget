@@ -44,6 +44,9 @@ def index():
     # check if the budget table is created
     db = build_budget_table(db, budget)
 
+    # check if regular payment check table is created
+    db = build_regular_table(db)
+
     # check if the balances table is created
     db = build_balance_table(db)
 
@@ -137,11 +140,18 @@ def add_regular():
     # connect to database
     db = sqlite3.connect(app.config['db'])
 
+    # check if regulars were added this month
+    month = current_date(True)
+    day = current_date()
+    if not write_regular(db, month, day):
+        flash("Regular payments already added this month")
+        return redirect(url_for('index'))
+
     # write them into database
     for payment in regular:
         entry = dict() # init the entry dict
-        entry['month'] = current_date(True)
-        entry['date'] = current_date()
+        entry['month'] = month
+        entry['date'] = day
         entry['price'] = payment[0]
         entry['category'] = payment[1]
         entry['item'] = payment[2]
