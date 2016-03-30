@@ -10,12 +10,12 @@
         <ul class="collapsible" data-collapsible="accordion">
             <li>
                 <div class="collapsible-header
-                    {% if balance['total'] > 700 %}
-                    purple darken-3
-                    {% elif balance['total'] > 1000 %}
+                    {% if balance['total'] > 1000 %}
                     red darken-1
                     {% elif balance['total'] == 1000 %}
                     grey lighten-2
+                    {% elif balance['total'] > 700 %}
+                    purple darken-3
                     {% else %}
                     lime lighten-2
                     {% endif %}
@@ -25,12 +25,12 @@
             <li>
                 <div class="collapsible-header"><strong>{{top|title}}:</strong> <span class="
                 {% with ratio = balance[top]['total'] / budget[top].values()|sum %}
-                    {% if ratio < 0.3 %}
-                    purple-text text-darken-3
-                    {% elif ratio < 0 %}
+                    {% if ratio < 0 %}
                     red-text text-darken-1
                     {% elif ratio == 0 %}
                     grey-text text-lighten-2
+                    {% elif ratio < 0.3 %}
+                    purple-text text-darken-3
                     {% else %}
                     lime-text text-lighten-2
                     {% endif %}
@@ -40,10 +40,10 @@
                     <p
                             {% if balance[top][bottom] < 0 %}
                             class="red darken-1"
-                            {% elif balance[top][bottom]/budget[top][bottom] < 0.3 %}
-                            class="purple darken-3"
                             {% elif balance[top][bottom] == 0.0 %}
                             class="grey lighten-2"
+                            {% elif balance[top][bottom]/budget[top][bottom] < 0.3 %}
+                            class="purple darken-3"
                             {% else %}
                             class="lime lighten-2"
                             {% endif %}
