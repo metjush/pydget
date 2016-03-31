@@ -19,7 +19,7 @@ basic_auth = BasicAuth(app)
 # setup database connection
 app.config['db'] = 'static/pydget.db'
 
- N = 64
+N = 64
 app.secret_key = ''.join(random.choice(string.ascii_letters + string.digits + string.punctuation) for _ in range(N))
 
 
