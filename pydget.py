@@ -7,8 +7,8 @@ import os
 import sqlite3
 
 app = Flask(__name__)
-app.config['budget'] = "static/budget.json"
-app.config['regular'] = "static/regular.json"
+app.config['budget'] = url_for('static', filename='budget.json')
+app.config['regular'] = url_for('static', filename='regular.json')
 
 # setup authentification
 app.config['BASIC_AUTH_USERNAME'] = 'metjush'
@@ -18,6 +18,9 @@ basic_auth = BasicAuth(app)
 
 # setup database connection
 app.config['db'] = 'static/pydget.db'
+
+ N = 64
+app.secret_key = ''.join(random.choice(string.ascii_letters + string.digits + string.punctuation) for _ in range(N))
 
 
 @app.route('/')
@@ -201,7 +204,5 @@ def report(month):
 
 
 if __name__ == "__main__":
-    N = 64
-    app.secret_key = ''.join(random.choice(string.ascii_letters + string.digits + string.punctuation) for _ in range(N))
     app.debug = True
     app.run(host='0.0.0.0', port=9876)
